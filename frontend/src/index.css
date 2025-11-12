@@ -1,0 +1,65 @@
+/* stylelint-disable at-rule-no-unknown */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+@layer base {
+  body {
+    background-color: #ffffff;
+    color: #111827;
+  }
+}
+
+@layer components {
+  .btn {
+    padding: 0.5rem 1rem;
+    background-color: #2563eb;
+    color: #ffffff;
+    border-radius: 0.25rem;
+  }
+
+  .btn:hover {
+    background-color: #1d4ed8;
+  }
+
+  .btn-secondary {
+    padding: 0.5rem 1rem;
+    background-color: #4b5563;
+    color: #ffffff;
+    border-radius: 0.25rem;
+  }
+
+  .btn-secondary:hover {
+    background-color: #374151;
+  }
+
+  .btn-primary {
+    padding: 0.5rem 1rem;
+    background-color: #059669;
+    color: #ffffff;
+    border-radius: 0.25rem;
+  }
+
+  .btn-primary:hover {
+    background-color: #047857;
+  }
+
+  .input-field {
+    border: 1px solid #d1d5db;
+    border-radius: 0.25rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .input-field:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #3b82f6;
+  }
+
+  .card {
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-radius: 0.25rem;
+    padding: 1rem;
+  }
+}
