@@ -205,8 +205,6 @@ npm run dev
 3. Get connection string
 4. Update `MONGO_URI` in `backend/.env`:
 
-   ```env
-   MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/growvest?retryWrites=true&w=majority
    ``
 
 ## Project Structure in VS Code
