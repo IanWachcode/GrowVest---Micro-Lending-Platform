@@ -1,0 +1,13 @@
+{
+  "$schema": "https://www.schemastore.org/package",
+  "name": "growvest-micro-lending-platform",
+  "version": "1.0.0",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "scripts": {
+    "server": "cd backend && npm run dev",
+    "client": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  }
+}
