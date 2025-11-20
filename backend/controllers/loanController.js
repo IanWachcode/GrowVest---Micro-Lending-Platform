@@ -1,106 +1,52 @@
 const Loan = require('../models/Loan');
 
-// @desc    Get user loans
-// @route   GET /api/loans
-// @access  Private
-const getLoans = async (req, res) => {
+// Create loan
+exports.createLoan = async (req, res) => {
   try {
-    const loans = await Loan.find({ user: req.user._id }).sort({ createdAt: -1 });
-    res.status(200).json(loans);
+    const loan = await Loan.create({ ...req.body, user: req.user.id });
+    res.status(201).json({ success: true, loan });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 
-// @desc    Get single loan
-// @route   GET /api/loans/:id
-// @access  Private
-const getLoan = async (req, res) => {
+// Get all loans for logged-in user
+exports.getLoans = async (req, res) => {
   try {
-    const loan = await Loan.findById(req.params.id);
-
-    if (!loan) {
-      return res.status(404).json({ message: 'Loan not found' });
-    }
-
-    // Make sure user owns loan
-    if (loan.user.toString() !== req.user._id.toString()) {
-      return res.status(401).json({ message: 'Not authorized' });
-    }
-
-    res.status(200).json(loan);
+    const loans = await Loan.find({ user: req.user.id });
+    res.json({ success: true, loans });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-// @desc    Create new loan
-// @route   POST /api/loans
-// @access  Private
-const createLoan = async (req, res) => {
-  try {
-    const { amount, purpose, duration } = req.body;
-
-    const loan = await Loan.create({
-      user: req.user._id,
-      amount,
-      purpose,
-      duration,
-    });
-
-    res.status(201).json(loan);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
-  }
-};
-
-// @desc    Make loan payment
-// @route   POST /api/loans/:id/payment
-// @access  Private
-const makePayment = async (req, res) => {
+// Get single loan
+exports.getLoan = async (req, res) => {
   try {
     const loan = await Loan.findById(req.params.id);
-
-    if (!loan) {
-      return res.status(404).json({ message: 'Loan not found' });
-    }
-
-    // Make sure user owns loan
-    if (loan.user.toString() !== req.user._id.toString()) {
-      return res.status(401).json({ message: 'Not authorized' });
-    }
-
-    const { amount } = req.body;
-
-    if (amount <= 0) {
-      return res.status(400).json({ message: 'Invalid payment amount' });
-    }
-
-    // Add payment to loan
-    loan.payments.push({ amount });
-    loan.remainingBalance -= amount;
-
-    // Check if loan is fully paid
-    if (loan.remainingBalance <= 0) {
-      loan.status = 'completed';
-      loan.remainingBalance = 0;
-    }
-
-    await loan.save();
-
-    res.status(200).json(loan);
+    if (!loan) return res.status(404).json({ message: 'Loan not found' });
+    res.json({ success: true, loan });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-module.exports = {
-  getLoans,
-  getLoan,
-  createLoan,
-  makePayment,
+// Update loan
+exports.updateLoan = async (req, res) => {
+  try {
+    const loan = await Loan.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json({ success: true, loan });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Delete loan
+exports.deleteLoan = async (req, res) => {
+  try {
+    await Loan.findByIdAndDelete(req.params.id);
+    res.json({ success: true, message: 'Loan deleted' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };

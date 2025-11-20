@@ -1,16 +1,24 @@
 const express = require('express');
 const router = express.Router();
+const { protect } = require('../middleware/authMiddleware');
+
 const {
   getSavings,
   deposit,
   withdraw,
-  getTransactions,
+  getTransactions
 } = require('../controllers/savingsController');
-const { protect } = require('../middleware/authMiddleware');
 
-router.route('/').get(protect, getSavings);
-router.route('/deposit').post(protect, deposit);
-router.route('/withdraw').post(protect, withdraw);
-router.route('/transactions').get(protect, getTransactions);
+// Get user savings
+router.get('/', protect, getSavings);
+
+// Deposit money
+router.post('/deposit', protect, deposit);
+
+// Withdraw money
+router.post('/withdraw', protect, withdraw);
+
+// Get transaction history
+router.get('/transactions', protect, getTransactions);
 
 module.exports = router;

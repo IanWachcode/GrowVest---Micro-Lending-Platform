@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthContext from '../context/AuthContext.js';
+import { AuthContext } from '../context/AuthContext.jsx';
 import api from '../utils/api';
 
 const ApplyLoan = () => {
@@ -57,7 +57,7 @@ const ApplyLoan = () => {
           <div className="text-6xl mb-4">✅</div>
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Application Submitted!</h2>
           <p className="text-gray-600 mb-4">
-            Your loan application has been submitted successfully. We'll review it and get back to you soon.
+            Your loan application has been submitted successfully. We&apos;ll review it and get back to you soon.
           </p>
           <p className="text-sm text-gray-500">Redirecting to dashboard...</p>
         </div>

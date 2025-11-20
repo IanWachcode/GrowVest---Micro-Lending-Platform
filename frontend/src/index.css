@@ -1,12 +1,10 @@
-/* stylelint-disable at-rule-no-unknown */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   body {
-    background-color: #4082da;
+    background-color: #ffffff;
     color: #111827;
   }
 }
@@ -58,7 +56,8 @@
 
   .card {
     background-color: #19479c;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
     border-radius: 0.25rem;
     padding: 1rem;
   }

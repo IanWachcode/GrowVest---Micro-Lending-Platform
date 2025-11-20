@@ -1,12 +1,17 @@
 import axios from 'axios';
 
+// Backend URL from environment variable or fallback to localhost
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
+// Create Axios instance
 const api = axios.create({
   baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
-// Add token to requests
+// Request interceptor to add token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -15,7 +20,18 @@ api.interceptors.request.use(
     }
     return config;
   },
+  (error) => Promise.reject(error)
+);
+
+// Optional: Response interceptor for global error handling
+api.interceptors.response.use(
+  (response) => response,
   (error) => {
+    // Example: log out user if token expired (401)
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/login';
+    }
     return Promise.reject(error);
   }
 );

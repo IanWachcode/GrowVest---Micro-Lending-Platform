@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import AuthContext from '../context/AuthContext.js';
+import { AuthContext } from '../context/AuthContext.js';
+import toast from 'react-hot-toast';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -29,10 +30,19 @@ const Register = () => {
     setError('');
 
     try {
-      await register(formData);
-      navigate('/dashboard');
-    } catch (error) {
-      setError(error.response?.data?.message || 'Registration failed');
+      // Pass formData as object
+      const result = await register(formData);
+
+      if (result.success) {
+        toast.success('Account created successfully!');
+        navigate('/dashboard');
+      } else {
+        setError(result.message);
+        toast.error(result.message);
+      }
+    } catch (err) {
+      setError(err.message || 'Registration failed');
+      toast.error(err.message || 'Registration failed');
     } finally {
       setLoading(false);
     }
@@ -64,6 +74,7 @@ const Register = () => {
           )}
 
           <div className="space-y-4">
+            {/* Full Name */}
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Full Name
@@ -79,6 +90,7 @@ const Register = () => {
               />
             </div>
 
+            {/* Email */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email
@@ -94,6 +106,7 @@ const Register = () => {
               />
             </div>
 
+            {/* Password */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
@@ -109,6 +122,7 @@ const Register = () => {
               />
             </div>
 
+            {/* Phone */}
             <div>
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
                 Phone Number
@@ -124,6 +138,7 @@ const Register = () => {
               />
             </div>
 
+            {/* Address */}
             <div>
               <label htmlFor="address" className="block text-sm font-medium text-gray-700">
                 Address
@@ -139,6 +154,7 @@ const Register = () => {
               />
             </div>
 
+            {/* Business Type */}
             <div>
               <label htmlFor="businessType" className="block text-sm font-medium text-gray-700">
                 Business Type
@@ -166,7 +182,7 @@ const Register = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-green bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50"
             >
               {loading ? 'Creating account...' : 'Create account'}
             </button>
