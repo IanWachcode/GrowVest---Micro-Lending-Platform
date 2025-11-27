@@ -10,4 +10,4 @@ router.post('/login', login);
 router.get('/me', protect, getMe);
 
 module.exports = router;
-mosule.exports = app;
+module.exports = app;
