@@ -22,4 +22,5 @@ router.post('/withdraw', protect, withdraw);
 router.get('/transactions', protect, getTransactions);
 
 module.exports = router;
-module.exports = app;
+
+
